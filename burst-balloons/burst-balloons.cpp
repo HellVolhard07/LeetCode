@@ -1,28 +1,25 @@
+int dfs(int l, int r, vector<int>& nums, vector<vector<int>> &dp) {
+    if(l > r) {
+        return 0;
+    }
+    if(dp[l][r] != -1) {
+        return dp[l][r];
+    }
+    dp[l][r] = 0;
+    for(int i = l ; i <= r ; i++) {
+        int coins = nums[l - 1] * nums[i] * nums[r + 1];
+        coins += (dfs(l, i - 1, nums, dp) + dfs(i + 1, r, nums, dp));
+        dp[l][r] = max(dp[l][r], coins);
+    }
+    return dp[l][r];
+}
+
 class Solution {
-    int dp[501][501];
-    
-    int solve(vector<int> &A, int l, int r) {
-        if(l > r) return 0;
-        int &ans = dp[l][r];
-        if(ans != -1) return ans;
-        for(int i = l;i <= r;i++) {
-            // choosing ith to burst at last
-            int left = solve(A, l, i - 1);
-            int right = solve(A, i + 1, r);
-            int cur = A[i];
-            if(l - 1 >= 0) cur *= A[l - 1];
-            if(r + 1 < A.size()) cur *= A[r + 1];
-            ans = max(ans, cur + left + right);
-        }
-        return ans;
-    }
 public:
-    Solution() {
-        memset(dp, -1, sizeof(dp));
+    int maxCoins(vector<int> nums) {
+        vector<vector<int>> dp(nums.size() + 2, vector<int> (nums.size() + 2, -1));
+        nums.insert(nums.begin(), 1);
+        nums.push_back(1);
+        return dfs(1, (int)nums.size() - 2, nums, dp);
     }
-    
-    int maxCoins(vector<int>& nums) {
-        return solve(nums, 0, (int)nums.size() - 1);
-    }
-        
 };
