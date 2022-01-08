@@ -10,10 +10,7 @@ public:
         }
         if(dp[n] == 0) {
             dp[n] = tribonacci(n - 3) + tribonacci(n - 2) + tribonacci(n - 1);
-            return dp[n];
         }
-        else {
-            return dp[n];
-        }
+        return dp[n];
     }
 };
