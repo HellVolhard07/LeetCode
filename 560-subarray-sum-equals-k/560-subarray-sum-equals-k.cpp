@@ -14,10 +14,8 @@ public:
         vector<int> prefix = getPrefixSum(nums);
         unordered_map<int, int> freq;
         int ans = 0;
+        freq[0]++;
         for(int i : prefix) {
-            if(i == k) {
-                ans++;
-            }
             if(freq.count(i - k)) {
                 ans += freq[i - k];
             }
