@@ -18,7 +18,7 @@ public:
             if(i == k) {
                 ans++;
             }
-            if(freq.count(i - k) > 0) {
+            if(freq.count(i - k)) {
                 ans += freq[i - k];
             }
             freq[i]++;
