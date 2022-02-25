@@ -1,11 +1,5 @@
 class Solution {
-    /*
-    12345
-    1
-    10+2
-    120+3
-    
-    */
+
     vector<int> stringToArr(string s) {
         vector<int> arr;
         int n = s.length();
@@ -29,9 +23,6 @@ public:
     int compareVersion(string version1, string version2) {
         vector<int> arr1 = stringToArr(version1);
         vector<int> arr2 = stringToArr(version2);
-        for(int i : arr1) {
-            cout<<i<<endl;
-        }
         int n1 = arr1.size();
         int n2 = arr2.size();
         int n = min(n1, n2);
