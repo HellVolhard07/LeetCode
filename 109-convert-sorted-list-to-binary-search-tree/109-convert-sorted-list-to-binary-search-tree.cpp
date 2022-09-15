@@ -22,7 +22,7 @@
 class Solution {
 public:
     
-    TreeNode* solve(ListNode* head, ListNode* tail) {
+    TreeNode* withoutSpace(ListNode* head, ListNode* tail) {
         if(head == tail) {
             return NULL;
         }
@@ -33,12 +33,28 @@ public:
             fast = fast->next->next;
         }
         TreeNode* root = new TreeNode(slow->val);
-        root->left = solve(head, slow);
-        root->right = solve(slow->next, tail);
+        root->left = withoutSpace(head, slow);
+        root->right = withoutSpace(slow->next, tail);
+        return root;
+    }
+    
+    TreeNode* withSpace(vector<int> &nodes, int start, int end) {
+        if(start > end) {
+            return NULL;
+        }
+        int mid = (start + end) / 2;
+        TreeNode* root = new TreeNode(nodes[mid]);
+        root->left = withSpace(nodes, start, mid - 1);
+        root->right = withSpace(nodes, mid + 1, end);
         return root;
     }
     
     TreeNode* sortedListToBST(ListNode* head) {
-        return solve(head, NULL);
+        vector<int> nodes;
+        while(head) {
+            nodes.push_back(head->val);
+            head = head->next;
+        }
+        return withSpace(nodes, 0, nodes.size() - 1);
     }
 };
