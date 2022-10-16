@@ -3,19 +3,30 @@
 using namespace std;
 
 // } Driver Code Ends
+
 class Solution {
-    void dfs(vector<vector<int>> &image, vector<vector<bool>> &visited, int row, int col, int color, int ocolor) {
+    void bfs(vector<vector<int>> &image, vector<vector<bool>> &visited, int row, int col, int color) {
         int n = image.size();
         int m = image[0].size();
         visited[row][col] = true;
+        int ocolor = image[row][col];
         image[row][col] = color;
-        for(int i = -1 ; i <= 1 ; i++) {
-            for(int j = -1 ; j <= 1 ; j++) {
-                if(i != j and i != -j) {
-                    int nrow = row + i;
-                    int ncol = col + j;
-                    if(nrow >= 0 and nrow < n and ncol >= 0 and ncol < m and image[nrow][ncol] == ocolor and !visited[nrow][ncol]) {
-                        dfs(image, visited, nrow, ncol, color, ocolor);
+        queue<pair<int, int>> q;
+        q.push({row, col});
+        while(!q.empty()) {
+            int crow = q.front().first;
+            int ccol = q.front().second;
+            q.pop();
+            for(int i = -1 ; i <= 1 ; i++) {
+                for(int j = -1 ; j <= 1 ; j++) {
+                    if(i != j and i != -j) {
+                        int nrow = crow + i;
+                        int ncol = ccol + j;
+                        if(nrow >= 0 and nrow < n and ncol >= 0 and ncol < m and image[nrow][ncol] == ocolor and !visited[nrow][ncol]) {
+                            image[nrow][ncol] = color;
+                            visited[nrow][ncol] = true;
+                            q.push({nrow, ncol});
+                        }
                     }
                 }
             }
@@ -26,11 +37,13 @@ public:
         int n = image.size();
         int m = image[0].size();
         vector<vector<bool>> visited(n, vector<bool>(m, false));
-        dfs(image, visited, sr, sc, newColor, image[sr][sc]);
+        bfs(image, visited, sr, sc, newColor);
         return image;
         
     }
 };
+
+
 
 //{ Driver Code Starts.
 int main(){
